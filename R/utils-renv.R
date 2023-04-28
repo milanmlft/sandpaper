@@ -122,17 +122,21 @@ renv_carpentries_repos <- function() {
 #' @param profile the name of the new renv profile
 #' @return this is normally called for it's side-effect
 #' @noRd
-renv_setup_profile <- function(path = ".", profile = "lesson-requirements") {
-  callr::r(function(path, profile) {
+renv_setup_profile <- function(path = ".", profile = "lesson-requirements",
+                               use_python = FALSE, python = NULL, type = c("auto", "virtualenv", "conda", "system")) {
+  callr::r(function(path, profile, use_python, python, type) {
     wd <- getwd()
     on.exit(setwd(wd))
     setwd(path)
     # NOTE: I do not know why, but this takes forever to run when no internet is
     # available. Kevin may know why.
     renv::init(project = path, bare = TRUE, restart = FALSE, profile = profile)
+    if (use_python) {
+      renv::use_python(python = python, type = type)
+    }
     renv::deactivate(project = path)
   },
-  args = list(path = path, profile = profile),
+  args = list(path = path, profile = profile, use_python = use_python, python = python, type = type),
   show = TRUE,
   spinner = FALSE,
   user_profile = FALSE,

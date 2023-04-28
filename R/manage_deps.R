@@ -62,14 +62,15 @@
 #'   off the package cache, respectively.
 #' @return if `snapshot = TRUE`, a nested list representing the lockfile will be
 #'   returned.
-manage_deps <- function(path = ".", profile = "lesson-requirements", snapshot = TRUE, quiet = FALSE) {
+manage_deps <- function(path = ".", profile = "lesson-requirements", snapshot = TRUE, quiet = FALSE,
+                        use_python = FALSE, python = NULL, type = c("auto", "virtualenv", "conda", "system")) {
 
   use_package_cache(quiet = quiet)
   # Enforce absolute path here
   path <- fs::path_abs(root_path(path))
 
   if (!fs::dir_exists(fs::path(path, "renv/profiles", profile))) {
-    renv_setup_profile(path, profile)
+    renv_setup_profile(path, profile, use_python = use_python, python = python, type = type)
     lockfile_exists <- FALSE
   } else {
     lockfile_exists <- TRUE
