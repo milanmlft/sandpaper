@@ -92,7 +92,7 @@ create_lesson <- function(path, name = fs::path_file(path), rmd = TRUE, rstudio 
   has_consent <- rmd && getOption("sandpaper.use_renv")
   if (has_consent) {
     cli::cli_status_update("{cli::symbol$arrow_right} Managing Dependencies ...")
-    manage_deps(path, snapshot = TRUE)
+    manage_deps(path, snapshot = TRUE, use_python = use_python, python = python, type = type)
   }
 
   cli::cli_status_update("{cli::symbol$arrow_right} Committing ...")
