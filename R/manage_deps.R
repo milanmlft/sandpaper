@@ -28,6 +28,13 @@
 #' @param quiet if `TRUE`, output will be suppressed, defaults to `FALSE`,
 #'   providing output about different steps in the process of updating the local
 #'   dependencies.
+#' @param use_python if `TRUE`, records a version of Python and any installed
+#'   Python packages in the lesson. This defaults to `FALSE`.
+#' @param python The path to the version of Python to be used with this project.
+#'   See [renv::use_python()] for more details. The default is `NULL`, which
+#'   lets \pkg{renv} detect a version of Python automatically.
+#' @param type The type of Python environment to use. When `"auto"` (the
+#'   default), virtual environments will be used.
 #'
 #' @details The \pkg{renv} package provides a very useful interface to bring one
 #'   aspect of reproducibility to R projects. Because people working on
@@ -56,10 +63,22 @@
 #'   When the lockfile changes, you will see it in git and have the power to
 #'   either commit or restore those changes.
 #'
+#'   ## Using Python
+#'
+#'   The `use_python` argument allows setting up Python for the lesson in a
+#'   semi-automated way. When `use_python = TRUE`, [renv::use_python()] will be
+#'   called with the version of Python specified by `python`. In addition, a new
+#'   Python environment is created of the specified `type`. This ensures the
+#'   installed Python packages for this project are separate from the user's
+#'   default library.
+#'
+#'
+#'
 #' @export
 #' @rdname dependency_management
 #' @seealso [use_package_cache()] and [no_package_cache()] for turning on and
-#'   off the package cache, respectively.
+#'   off the package cache, respectively. [renv::use_python()] for managing
+#'   Python.
 #' @return if `snapshot = TRUE`, a nested list representing the lockfile will be
 #'   returned.
 manage_deps <- function(path = ".", profile = "lesson-requirements", snapshot = TRUE, quiet = FALSE,
